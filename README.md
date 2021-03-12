@@ -41,7 +41,7 @@ When the service is running, try this link in your browser
     127.0.0.1:8008/docs
 ```
 
-You can test the project with pytest by running the command 
+You can test the project with pytest by running the command. You can check Github Actions for the status of tests [here](./actions) 
 ```
     pytest
 ```
