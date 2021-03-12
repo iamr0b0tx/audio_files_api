@@ -9,7 +9,7 @@ Before going through the steps make sure you have the following pre-installed
 2. Virtualenv
 
 
-Make sure to download/clone this repository and navigate to the folder in yout terminal. Now follow the indtructions below
+Make sure to download/clone this repository and navigate to the folder in your terminal. Now follow the indtructions below
 
 1. Create the virtual environment.
 ```
@@ -17,7 +17,7 @@ Make sure to download/clone this repository and navigate to the folder in yout t
 ```
 You can find out the path to your `python3` interpreter with the command `which python3`.
 
-2. Activate the environment and install dependencies. <os-platform> is a placeholder for windows/linux.
+2. Activate the environment and install dependencies. `<os-platform>` is a placeholder for windows/linux.
     - #### Linux
     ```
         source /path/to/venv/bin/activate
