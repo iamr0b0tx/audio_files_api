@@ -4,10 +4,14 @@ CRUD Backend for Audio Files
 ## Project setup
 Before going through the steps make sure you have the following pre-installed
 
-### Prerequisite
+### Tools and Resources
 1. Python 3.6+
 2. Virtualenv
-
+3. Postgresql 
+    1. Download the application [link](). 
+    2. Install Postgresql and set up root (posgres)
+    3. Set up two databases namely __audio_file_db__ and __audio_file_test_db__.
+    
 
 Make sure to download/clone this repository and navigate to the folder in your terminal. Now follow the indtructions below
 
