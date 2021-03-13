@@ -14,6 +14,19 @@ jobs:
 
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: postgres
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+
     steps:
     - uses: actions/checkout@v2
     - name: Set up Python 3.8
@@ -25,6 +38,9 @@ jobs:
         python -m pip install --upgrade pip
         pip install pytest
         if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-    - name: Test with pytest
+    - name: Connect to PostgreSQL then run tests with pytest
+      env:
+        DATABASE_URL: postgresql://postgres:postgres@localhost/postgres
+        TEST_DATABASE_URL: postgresql://postgres:postgres@localhost/postgres
       run: |
         py.test
