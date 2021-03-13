@@ -1,6 +1,11 @@
-class InvalidAudioType(Exception):
-    def __init__(self, message="AudioType is not recognized!"):
-        super(InvalidAudioType, self).__init__(message)
+class UpdateError(Exception):
+    def __init__(self, message="There was an Error during update!"):
+        super(UpdateError, self).__init__(message)
+
+
+class DeleteError(Exception):
+    def __init__(self, message="There was an Error during deletion!"):
+        super(DeleteError, self).__init__(message)
 
 
 class AudioDoesNotExist(Exception):

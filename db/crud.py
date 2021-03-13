@@ -1,7 +1,7 @@
 from sqlalchemy.orm import Session
 
 from . import models, schemas
-from .exceptions import AudioDoesNotExist
+from .exceptions import AudioDoesNotExist, UpdateError, DeleteError
 from .schemas import AudioFileType, AudioCreateTypeSchemas
 
 type_model_map = {
@@ -38,3 +38,34 @@ def create_audio_file(db: Session, audio_file_type: AudioFileType, audio_file_me
     db.commit()
     db.refresh(audio_object)
     return audio_object
+
+
+def update_audio_file(db: Session, audio_file_type: AudioFileType,
+                      audio_id: int, audio_file_metadata: AudioCreateTypeSchemas):
+
+    audio_model = get_audio_model(audio_file_type)
+    audio_object_id = db.query(audio_model).filter_by(id=audio_id).update(audio_file_metadata.dict())
+
+    if not audio_object_id:
+        raise AudioDoesNotExist()
+
+    if audio_object_id != audio_id:
+        raise UpdateError()
+
+    db.commit()
+    return audio_object_id
+
+
+def delete_audio_file(db: Session, audio_file_type: AudioFileType,audio_id: int):
+
+    audio_model = get_audio_model(audio_file_type)
+    audio_object_id = db.query(audio_model).filter_by(id=audio_id).delete()
+
+    if not audio_object_id:
+        raise AudioDoesNotExist()
+
+    if audio_object_id != audio_id:
+        raise DeleteError()
+
+    db.commit()
+    return audio_object_id

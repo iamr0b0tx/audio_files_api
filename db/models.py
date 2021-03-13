@@ -25,7 +25,7 @@ class Podcast(Base):
     duration = Column(Integer, nullable=False)
     uploaded_time = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
     host = Column(String(100), index=True, nullable=False)
-    participants = Column(ARRAY(String(100), dimensions=10))
+    participants = Column(ARRAY(String(100)), nullable=True)
 
     __table_args__ = (
         CheckConstraint(duration >= 0, name='check_duration_positive'), {}
@@ -37,7 +37,7 @@ class Audiobook(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     title = Column(String(100), index=True, nullable=False)
-    author = Column(String(100), ndex=True, nullable=False)
+    author = Column(String(100), index=True, nullable=False)
     narrator = Column(String(100), index=True, nullable=False)
     duration = Column(Integer, nullable=False)
     uploaded_time = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
