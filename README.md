@@ -4,12 +4,16 @@ CRUD Backend for Audio Files
 ## Project setup
 Before going through the steps make sure you have the following pre-installed
 
-### Prerequisite
+### Tools and Resources
 1. Python 3.6+
 2. Virtualenv
+3. Postgresql 
+    1. Download the application [link](https://www.enterprisedb.com/downloads/postgres-postgresql-downloads). 
+    2. Install Postgresql and set up root (postgres). [link](https://www.postgresqltutorial.com/install-postgresql/)
+    3. Set up two databases namely __audio_file__ and __audio_file_test__.
+    
 
-
-Make sure to download/clone this repository and navigate to the folder in yout terminal. Now follow the indtructions below
+Make sure to download/clone this repository and navigate to the folder in your terminal. Now follow the indtructions below
 
 1. Create the virtual environment.
 ```
@@ -17,7 +21,9 @@ Make sure to download/clone this repository and navigate to the folder in yout t
 ```
 You can find out the path to your `python3` interpreter with the command `which python3`.
 
-2. Activate the environment and install dependencies. <os-platform> is a placeholder for windows/linux.
+2. Set up `.env` file by duplicating the `.example.env` file(and editing if required).
+
+3. Activate the environment and install dependencies. `<os-platform>` is a placeholder for windows/linux.
     - #### Linux
     ```
         source /path/to/venv/bin/activate
@@ -30,7 +36,7 @@ You can find out the path to your `python3` interpreter with the command `which 
         pip install -r requirements\dev.<os-platform>.txt
     ```
 
-3. Launch the service
+4. Launch the service
 ```
     uvicorn main:app --workers 1 --host 0.0.0.0 --port 8008
 ```
@@ -41,7 +47,7 @@ When the service is running, try this link in your browser
     127.0.0.1:8008/docs
 ```
 
-You can test the project with pytest by running the command 
+You can test the project with pytest by running the command. You can check Github Actions for the status of tests [here](https://github.com/iamr0b0tx/audio_files_api/actions) 
 ```
     pytest
 ```
