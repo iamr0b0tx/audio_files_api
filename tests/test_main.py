@@ -1,31 +1,44 @@
 import pytest
 from decouple import config
-
 from fastapi.testclient import TestClient
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, Session
 
+from db.crud import create_audio_file
 from db.database import Base
+from db.schemas import SongCreateSchema
 from main import app, get_db
 
 SQLALCHEMY_DATABASE_URL = config("TEST_DATABASE_URL")
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 
-TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+TestingSessionLocal = sessionmaker(autocommit=False, autoflush=True, bind=engine)
+Base.metadata.drop_all(bind=engine)
 Base.metadata.create_all(bind=engine)
 
 
-def override_get_db():
+def override_get_db() -> Session:
+    db_session = TestingSessionLocal()
     try:
-        db = TestingSessionLocal()
-        yield db
+        yield db_session
+
     finally:
-        db.close()
+        db_session.close()
 
 
+db = next(iter(override_get_db()))
 app.dependency_overrides[get_db] = override_get_db
 client = TestClient(app)
 
+create_audio_file(db, "song", SongCreateSchema(
+    name="The sound of music",
+    duration=120
+))
+
+create_audio_file(db, "song", SongCreateSchema(
+    name="The sound of music",
+    duration=120
+))
 
 def test_get_audio():
     response = client.get('/')

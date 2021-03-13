@@ -57,10 +57,9 @@ class AudiobookCreateSchema(BaseModel):
 
 
 AudioTypeSchemas = Union[SongSchema, PodcastSchema, AudiobookSchema]
+AudioCreateTypeSchemas = Union[SongCreateSchema, PodcastCreateSchema, AudiobookCreateSchema]
 
 
 class AudioCreate(BaseModel):
     audioFileType: AudioFileType
-    audioFileMetaData: Union[SongCreateSchema, PodcastCreateSchema, AudiobookCreateSchema]
-
-
+    audioFileMetaData: AudioCreateTypeSchemas

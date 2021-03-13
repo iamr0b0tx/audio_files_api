@@ -8,7 +8,7 @@ class Song(Base):
     __tablename__ = "song"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(100), unique=True, index=True, nullable=False)
+    name = Column(String(100), index=True, nullable=False)
     duration = Column(Integer, nullable=False)
     uploaded_time = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 
@@ -21,10 +21,10 @@ class Podcast(Base):
     __tablename__ = "podcast"
 
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String(100), unique=True, index=True, nullable=False)
+    name = Column(String(100), index=True, nullable=False)
     duration = Column(Integer, nullable=False)
     uploaded_time = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
-    host = Column(String(100), unique=True, index=True, nullable=False)
+    host = Column(String(100), index=True, nullable=False)
     participants = Column(ARRAY(String(100), dimensions=10))
 
     __table_args__ = (
@@ -36,9 +36,9 @@ class Audiobook(Base):
     __tablename__ = "audiobook"
 
     id = Column(Integer, primary_key=True, index=True)
-    title = Column(String(100), unique=True, index=True, nullable=False)
-    author = Column(String(100), unique=True, index=True, nullable=False)
-    narrator = Column(String(100), unique=True, index=True, nullable=False)
+    title = Column(String(100), index=True, nullable=False)
+    author = Column(String(100), ndex=True, nullable=False)
+    narrator = Column(String(100), index=True, nullable=False)
     duration = Column(Integer, nullable=False)
     uploaded_time = Column(DateTime(timezone=True), server_default=func.now(), nullable=False)
 

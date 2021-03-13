@@ -1,10 +1,8 @@
-from typing import Type, Union, Dict
-
 from sqlalchemy.orm import Session
 
 from . import models, schemas
-from .exceptions import InvalidAudioType, AudioDoesNotExist
-from .schemas import AudioFileType
+from .exceptions import AudioDoesNotExist
+from .schemas import AudioFileType, AudioCreateTypeSchemas
 
 type_model_map = {
     'song': models.Song,
@@ -32,10 +30,10 @@ def get_audio_files(db: Session, audio_file_type: AudioFileType, skip: int = 0, 
     return db.query(audio_model).offset(skip).limit(limit).all()
 
 
-def create_audio_file(db: Session, audio: schemas.AudioCreate):
-    audio_model = get_audio_model(audio.audioFileType)
+def create_audio_file(db: Session, audio_file_type: AudioFileType, audio_file_metadata: AudioCreateTypeSchemas):
+    audio_model = get_audio_model(audio_file_type)
+    audio_object = audio_model(**audio_file_metadata.dict())
 
-    audio_object = audio_model(**audio.audioFileMetaData.dict())
     db.add(audio_object)
     db.commit()
     db.refresh(audio_object)

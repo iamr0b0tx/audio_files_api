@@ -1,4 +1,4 @@
-from typing import List, Union, Optional, Literal
+from typing import Optional
 
 from fastapi import Depends, FastAPI, HTTPException, Response, Request
 from sqlalchemy.orm import Session
@@ -15,13 +15,17 @@ app = FastAPI()
 # middleware
 @app.middleware("http")
 async def db_session_middleware(request: Request, call_next):
-    response = Response("Internal server error", status_code=500)
+    response = None
+
     try:
         request.state.db = SessionLocal()
         response = await call_next(request)
 
     finally:
         request.state.db.close()
+
+        if not response:
+            response = Response("Internal server error", status_code=500)
 
     return response
 
@@ -34,7 +38,9 @@ def get_db(request: Request):
 @app.post("/", response_model=AudioTypeSchemas)
 def create_audio(audio: schemas.AudioCreate, db: Session = Depends(get_db)):
     try:
-        return crud.create_audio_file(db=db, audio=audio)
+        return crud.create_audio_file(
+            db=db, audio_file_type=audio.audioFileType, audio_file_metadata=audio.audioFileMetaData.dict()
+        )
 
     except InvalidAudioType:
         raise HTTPException(status_code=404, detail="Invalid AudioFile type!")
